@@ -1,18 +1,10 @@
 spring:
   datasource:
-    url: &db_url jdbc:mysql://localhost:3306/fmmall
+    url: &db_url jdbc:mysql://localhost:3306/FINAL_PROJECT
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: &db_username root
       password: &db_password dannyab59515951
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-    baseline-version: '1'
-    url: *db_url
-    user: *db_username
-    password: *db_password
   jpa:
     open-in-view: false
     show-sql: true

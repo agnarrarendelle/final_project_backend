@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import practice.exception.ProductUnavailableException;
-import practice.exception.StripeCheckoutException;
 import practice.exception.UsernameDuplicateException;
 import practice.result.Result;
 
@@ -41,10 +40,5 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> exception(ProductUnavailableException exception) {
         return Result.error(exception.getMessage(), ProductUnavailableException.httpStatus);
-    }
-
-    @ExceptionHandler(StripeCheckoutException.class)
-    public ResponseEntity<?> exception(StripeCheckoutException exception) {
-        return Result.error(exception.getMessage(), StripeCheckoutException.httpStatus);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import practice.entity.User;
+import practice.entity.UserEntity;
 
 import java.util.Collection;
 
@@ -13,7 +13,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
     @Autowired
-    User user;
+    UserEntity user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -27,14 +27,14 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getName();
     }
 
-    public int getUserId() {
-        return user.getUserId();
-    }
-
-    public String getEmail() { return user.getUserEmail(); }
+//    public int getUserId() {
+//        return user.getUserId();
+//    }
+//
+//    public String getEmail() { return user.getUserEmail(); }
 
     @Override
     public boolean isAccountNonExpired() {
