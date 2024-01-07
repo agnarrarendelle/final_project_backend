@@ -3,6 +3,9 @@ package practice.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.sql.Timestamp;
 
@@ -13,9 +16,11 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Setter
 @Getter
+@DynamicInsert
+
 public class Task {
     public enum TaskStatus {
-        InProcess("In Progress"),
+        InProgress("InProgress"),
         Finished("Finished"),
         Expired("Expired");
         private final String value;
@@ -51,12 +56,13 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", length = 128, nullable = false)
+    @Column(name = "name", length = 128)
+    @NotNull
     private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    @NotNull
+    @ColumnDefault("''")
     private TaskStatus status;
 
     @Enumerated(EnumType.STRING)
@@ -65,7 +71,7 @@ public class Task {
     private TaskPriorityLevel priorityLevel;
 
     @Column(name = "created_at")
-    @NotNull
+    @CreationTimestamp
     private Timestamp createdAt;
 
     @Column(name = "finished_at")
@@ -80,12 +86,11 @@ public class Task {
     @NotNull
     private GroupEntity group;
 
+    @Column(name="group_id", insertable=false, updatable=false)
+    private Integer groupId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @NotNull
     private Category category;
-
-//    `created_at` datetime NOT NULL,                                                            |
-//            |       |   `finished_at` datetime DEFAULT NULL,                                                       |
-//            |       |   `expired_at` datetime NOT NULL,
 }

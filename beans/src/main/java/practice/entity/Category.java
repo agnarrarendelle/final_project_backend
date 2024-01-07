@@ -1,6 +1,7 @@
 package practice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -17,4 +18,9 @@ public class Category {
 
     @Column(name = "name", length = 45, unique = true)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    @NotNull
+    GroupEntity group;
 }

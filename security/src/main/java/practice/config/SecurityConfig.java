@@ -68,18 +68,18 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        // Configure CORS policy as needed
-        configuration.addAllowedOrigin("*"); // Allow requests from any origin (you should restrict this in production)
-        configuration.addAllowedMethod("*"); // Allow all HTTP methods
-        configuration.addAllowedHeader("*"); // Allow all headers
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        // Configure CORS policy as needed
+//        configuration.addAllowedOrigin("*"); // Allow requests from any origin (you should restrict this in production)
+//        configuration.addAllowedMethod("*"); // Allow all HTTP methods
+//        configuration.addAllowedHeader("*"); // Allow all headers
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
 
     @Bean

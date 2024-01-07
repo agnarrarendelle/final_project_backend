@@ -3,6 +3,7 @@ package practice.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,15 @@ public class GroupEntity {
     @Column(name = "name", length = 128)
     private String name;
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "user_group",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> users;
+
+
 }

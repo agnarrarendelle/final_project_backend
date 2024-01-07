@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import practice.user.CustomUserDetails;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,12 +33,12 @@ public class JwtUtils {
     @Autowired
     UserDetailsService userDetailsService;
 
-    public String createJwt(UserDetails userDetails, int id) {
+    public String createJwt(CustomUserDetails userDetails) {
         Algorithm algorithm = Algorithm.HMAC256(key);
         Date expire = expire();
         return JWT.create()
                 .withJWTId(UUID.randomUUID().toString())
-                .withClaim("id", id)
+                .withClaim("id", userDetails.getUserId())
                 .withClaim("username", userDetails.getUsername())
                 .withExpiresAt(expire)
                 .withIssuedAt(new Date())

@@ -8,17 +8,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import practice.exception.ProductUnavailableException;
-import practice.exception.UsernameDuplicateException;
+import practice.exception.*;
 import practice.result.Result;
 
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(UsernameDuplicateException.class)
-    public ResponseEntity<?> exception(UsernameDuplicateException exception) {
-        return Result.error(exception.getMessage(), UsernameDuplicateException.httpStatus);
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<?> exception(UserAlreadyExistException exception) {
+        return Result.error(exception.getMessage(), UserAlreadyExistException.httpStatus);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -36,9 +35,21 @@ public class GlobalExceptionHandler {
         return Result.error("Incorrect username or password");
     }
 
-    @ExceptionHandler(ProductUnavailableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<?> exception(ProductUnavailableException exception) {
-        return Result.error(exception.getMessage(), ProductUnavailableException.httpStatus);
+    @ExceptionHandler(GroupNameTakenException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public Result<Void> exception(GroupNameTakenException exception) {
+        return Result.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidTaskPriorityLevelException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public Result<Void> exception(InvalidTaskPriorityLevelException exception) {
+        return Result.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidTaskStatusException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public Result<Void> exception(InvalidTaskStatusException exception) {
+        return Result.error(exception.getMessage());
     }
 }
