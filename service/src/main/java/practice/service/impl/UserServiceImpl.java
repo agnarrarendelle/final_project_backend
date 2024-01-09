@@ -41,7 +41,11 @@ public class UserServiceImpl implements UserService {
 
         String token = jwtUtils.createJwt(userDetails);
 
-        return UserVo.builder().token(token).build();
+        return UserVo.builder()
+                .token(token)
+                .id(userDetails.getUserId())
+                .name(userDetails.getUsername())
+                .build();
     }
 
     @Override
