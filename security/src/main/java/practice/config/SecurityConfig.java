@@ -28,8 +28,7 @@ public class SecurityConfig {
             "/user/register",
             "/index/**",
             "/product/**",
-            "/stripe/**",
-            "/ws-endpoint/**",
+            "/websocket/**",
             // -- Swagger UI v2
             "/v2/api-docs",
             "/swagger-resources",
