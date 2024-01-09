@@ -43,17 +43,4 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<GroupEntity> groups = new HashSet<>();
-
-//    @Override
-//    public boolean equals(Object o){
-//        if(!(o instanceof UserEntity)) return  false;
-//        UserEntity user = (UserEntity) o;
-//        return this.id.equals(user.id);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return this.id;
-//    }
-
 }
