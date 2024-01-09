@@ -3,6 +3,8 @@ package practice.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "chat")
 @Builder
@@ -18,4 +20,13 @@ public class Chat {
     @OneToOne
     @JoinColumn(name = "group_id")
     private GroupEntity group;
+
+    @Column(name="group_id", insertable=false, updatable=false)
+    private Integer groupId;
+
+    @OneToMany(mappedBy = "chat", cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    }, fetch = FetchType.LAZY)
+    private List<ChatHistory> chatMessages;
 }
