@@ -2,6 +2,7 @@ package practice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -21,11 +22,15 @@ public class ChatHistory {
     private String content;
 
     @Column(name = "sentAt")
+    @CreationTimestamp
     private Timestamp sentAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    @Column(name="user_id", insertable=false, updatable=false)
+    private Integer userId;
 
     @ManyToOne
     @JoinColumn(name = "chat_id", nullable = false)
