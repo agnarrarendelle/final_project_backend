@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import practice.dto.GroupDto;
+import practice.entity.Chat;
 import practice.entity.GroupEntity;
 import practice.entity.UserEntity;
 import practice.exception.GroupNameTakenException;
+import practice.repository.ChatRepository;
 import practice.repository.GroupRepository;
 import practice.repository.UserRepository;
 import practice.service.GroupService;
@@ -24,6 +26,9 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ChatRepository chatRepository;
+
     @Override
     @Transactional
     public GroupVo addGroup(Integer userId, GroupDto dto) {
@@ -39,6 +44,11 @@ public class GroupServiceImpl implements GroupService {
                 .build();
 
         groupRepository.save(newGroup);
+
+        Chat chat = Chat.builder().group(newGroup).build();
+
+        chatRepository.save(chat);
+
         return GroupVo
                 .builder()
                 .id(newGroup.getId())
