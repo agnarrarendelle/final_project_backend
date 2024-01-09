@@ -3,12 +3,10 @@ package practice.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import practice.dto.CategoryDto;
-import practice.dto.GroupDto;
-import practice.dto.TaskDto;
-import practice.dto.UserDto;
+import practice.dto.*;
 import practice.result.Result;
 import practice.service.CategoryService;
+import practice.service.ChatService;
 import practice.service.GroupService;
 import practice.service.TaskService;
 import practice.user.CustomUserDetails;
@@ -31,6 +29,9 @@ public class GroupController {
 
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    ChatService chatService;
 
     @PostMapping
     public Result<GroupVo> addGroup(@AuthenticationPrincipal CustomUserDetails user, @RequestBody GroupDto dto) {
@@ -78,5 +79,11 @@ public class GroupController {
     public Result<List<TaskVo>> getTasks(@PathVariable("groupId") Integer groupId, @AuthenticationPrincipal CustomUserDetails user) {
         List<TaskVo> vos = taskService.getTasks(user.getUserId(), groupId);
         return Result.success(vos);
+    }
+
+    @GetMapping("/{groupId}/chat")
+    public Result<List<ChatMessageDto>> getChat(@PathVariable("groupId") Integer groupId, @AuthenticationPrincipal CustomUserDetails user){
+        List<ChatMessageDto> messages = chatService.getChat(groupId, user.getUserId());
+        return Result.success(messages);
     }
 }
