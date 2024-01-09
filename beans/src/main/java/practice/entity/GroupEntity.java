@@ -3,7 +3,6 @@ package practice.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,5 +30,6 @@ public class GroupEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEntity> users;
 
-
+    @OneToOne(mappedBy = "group", cascade = CascadeType.ALL)
+    private Chat chat;
 }
