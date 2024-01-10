@@ -10,7 +10,8 @@ import practice.entity.Category;
 import practice.entity.GroupEntity;
 import practice.entity.Task;
 import practice.exception.InvalidTaskPriorityLevelException;
-import practice.exception.InvalidTaskStatusException;
+import practice.exception.TaskNotExistException;
+import practice.exception.UserNotBelongingInGroupException;
 import practice.repository.CategoryRepository;
 import practice.repository.TaskRepository;
 import practice.service.GroupService;
@@ -37,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskVo addTask( Integer groupId,Integer categoryId, TaskDto dto) {
+    public TaskVo addTask(Integer groupId, Integer categoryId, TaskDto dto) {
         Task.TaskPriorityLevel priorityLevel;
         Task.TaskStatus status;
 
@@ -72,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskVo> getTasks(Integer userId, Integer groupId) {
         if (!groupService.isUserInGroup(userId, groupId)) {
-            return List.of();
+            throw new UserNotBelongingInGroupException(userId);
         }
 
         List<Task> tasks = taskRepository.findAllByGroupIdWithCategory(groupId);
@@ -89,5 +90,25 @@ public class TaskServiceImpl implements TaskService {
                         .categoryName(t.getCategory().getName())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public TaskVo getTask(int userId, Integer groupId, Integer taskId) {
+        if (!groupService.isUserInGroup(userId, groupId)) {
+            throw new UserNotBelongingInGroupException(userId);
+        }
+
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> {
+            throw new TaskNotExistException(taskId);
+        });
+
+        return TaskVo
+                .builder()
+                .id(task.getId())
+                .name(task.getName())
+                .priorityLevel(task.getPriorityLevel().toString())
+                .status((task.getStatus().toString()))
+                .expiredAt(task.getExpiredAt())
+                .build();
     }
 }
