@@ -52,4 +52,16 @@ public class GlobalExceptionHandler {
     public Result<Void> exception(InvalidTaskStatusException exception) {
         return Result.error(exception.getMessage());
     }
+
+    @ExceptionHandler(UserNotBelongingInGroupException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public Result<Void> exception(UserNotBelongingInGroupException exception) {
+        return Result.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(TaskNotExistException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public Result<Void> exception(TaskNotExistException exception) {
+        return Result.error(exception.getMessage());
+    }
 }
