@@ -11,4 +11,6 @@ public interface TaskService {
     List<TaskVo> getTasks(Integer userId, Integer groupId);
 
     TaskVo getTask(int userId, Integer groupId, Integer taskId);
+
+    TaskVo modifyTask(Integer taskId, TaskDto dto);
 }

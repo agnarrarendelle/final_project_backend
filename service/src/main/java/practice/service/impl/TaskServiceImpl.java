@@ -10,6 +10,7 @@ import practice.entity.Category;
 import practice.entity.GroupEntity;
 import practice.entity.Task;
 import practice.exception.InvalidTaskPriorityLevelException;
+import practice.exception.InvalidTaskStatusException;
 import practice.exception.TaskNotExistException;
 import practice.exception.UserNotBelongingInGroupException;
 import practice.repository.CategoryRepository;
@@ -39,20 +40,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public TaskVo addTask(Integer groupId, Integer categoryId, TaskDto dto) {
-        Task.TaskPriorityLevel priorityLevel;
-        Task.TaskStatus status;
-
-        try {
-            priorityLevel = Task.TaskPriorityLevel.valueOf(dto.getPriorityLevel());
-        } catch (IllegalArgumentException e) {
-            throw new InvalidTaskPriorityLevelException(dto.getPriorityLevel());
-        }
-
         Category category = categoryRepository.findById(categoryId).get();
 
         Task newTask = Task.builder()
                 .name(dto.getName())
-                .priorityLevel(priorityLevel)
+                .priorityLevel(toTaskPriorityLevel(dto.getPriorityLevel()))
                 .expiredAt(new Timestamp(dto.getExpiredAt().getTime()))
                 .group(entityManager.getReference(GroupEntity.class, groupId))
                 .category(category)
@@ -110,5 +102,42 @@ public class TaskServiceImpl implements TaskService {
                 .status((task.getStatus().toString()))
                 .expiredAt(task.getExpiredAt())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public TaskVo modifyTask(Integer taskId, TaskDto dto) {
+        Task task = taskRepository.findByIdWithCategory(taskId);
+
+        task.setName(dto.getName());
+        task.setExpiredAt(new Timestamp(dto.getExpiredAt().getTime()));
+        task.setPriorityLevel((toTaskPriorityLevel(dto.getPriorityLevel())));
+
+        taskRepository.save(task);
+        return TaskVo
+                .builder()
+                .id(task.getId())
+                .name(task.getName())
+                .priorityLevel(task.getPriorityLevel().toString())
+                .status((task.getStatus().toString()))
+                .expiredAt(task.getExpiredAt())
+                .categoryName(task.getCategory().getName())
+                .build();
+    }
+
+    private Task.TaskStatus toTaskStatus(String name) {
+        try {
+            return Task.TaskStatus.valueOf(name);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidTaskStatusException(name);
+        }
+    }
+
+    private Task.TaskPriorityLevel toTaskPriorityLevel(String name){
+        try {
+            return Task.TaskPriorityLevel.valueOf(name);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidTaskPriorityLevelException(name);
+        }
     }
 }
