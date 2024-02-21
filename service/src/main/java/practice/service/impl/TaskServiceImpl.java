@@ -9,10 +9,7 @@ import practice.dto.TaskDto;
 import practice.entity.Category;
 import practice.entity.GroupEntity;
 import practice.entity.Task;
-import practice.exception.InvalidTaskPriorityLevelException;
-import practice.exception.InvalidTaskStatusException;
-import practice.exception.TaskNotExistException;
-import practice.exception.UserNotBelongingInGroupException;
+import practice.exception.*;
 import practice.repository.CategoryRepository;
 import practice.repository.TaskRepository;
 import practice.service.GroupService;
@@ -167,6 +164,13 @@ public class TaskServiceImpl implements TaskService {
                 .categoryName(task.getCategory().getName())
                 .build();
     }
+
+    @Override
+    @Transactional
+    public void expireTasks() {
+        taskRepository.expireTasks();
+    }
+
     private Task.TaskStatus toTaskStatus(String name) {
         try {
             return Task.TaskStatus.valueOf(name);

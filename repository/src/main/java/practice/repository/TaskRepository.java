@@ -1,6 +1,7 @@
 package practice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     void deleteByIdAndGroupId(Integer id, Integer groupId);
 
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE task SET status = 'Expired' WHERE status = 'InProgress' AND expired_at < NOW();")
+    void expireTasks();
 }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "task")
@@ -93,4 +94,13 @@ public class Task {
     @JoinColumn(name = "category_id")
     @NotNull
     private Category category;
+
+    public boolean isDue(){
+        return this.expiredAt.after(new Date());
+    }
+
+    public boolean isExpired(){
+        return this.status == TaskStatus.Expired;
+    }
+
 }
