@@ -52,6 +52,7 @@ public class ChatServiceImpl implements ChatService {
                         .builder()
                         .userId(m.getUserId())
                         .message(m.getContent())
+                        .userName(m.getUser().getName())
                         .build())
                 .toList();
     }

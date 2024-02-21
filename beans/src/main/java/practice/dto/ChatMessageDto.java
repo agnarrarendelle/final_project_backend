@@ -12,4 +12,5 @@ import java.io.Serializable;
 public class ChatMessageDto  {
     private String message;
     private Integer userId;
+    private String userName;
 }
