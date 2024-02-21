@@ -16,4 +16,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     @Query("SELECT t FROM Task t JOIN FETCH t.category WHERE t.id = :taskId")
     Task findByIdWithCategory(@Param("taskId") Integer taskId);
+
+    void deleteByIdAndGroupId(Integer id, Integer groupId);
+
 }

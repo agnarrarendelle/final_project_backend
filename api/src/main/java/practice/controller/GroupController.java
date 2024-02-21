@@ -100,6 +100,12 @@ public class GroupController {
         return Result.success(vo);
     }
 
+    @DeleteMapping("/{groupId}/task/{taskId}")
+    public Result<TaskVo> deleteTask(@PathVariable("groupId") Integer groupId, @PathVariable("taskId") Integer taskId, @AuthenticationPrincipal CustomUserDetails user) {
+        taskService.deleteTask(user.getUserId(), groupId, taskId);
+        return Result.success();
+    }
+
     @GetMapping("/{groupId}/chat")
     public Result<List<ChatMessageDto>> getChat(@PathVariable("groupId") Integer groupId, @AuthenticationPrincipal CustomUserDetails user) {
         List<ChatMessageDto> messages = chatService.getChat(groupId, user.getUserId());

@@ -13,6 +13,9 @@ public interface TaskService {
     TaskVo getTask(int userId, Integer groupId, Integer taskId);
 
     TaskVo modifyTask(Integer taskId, TaskDto dto);
+
+    void deleteTask(int userId, Integer groupId, Integer taskId);
+
     TaskVo updateTaskStatus(Integer groupId, Integer taskId);
 
 }

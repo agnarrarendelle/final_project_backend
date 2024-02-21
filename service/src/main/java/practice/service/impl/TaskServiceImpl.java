@@ -127,6 +127,15 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
+    public void deleteTask(int userId, Integer groupId, Integer taskId) {
+        if (!groupService.isUserInGroup(userId, groupId)) {
+            throw new UserNotBelongingInGroupException(userId);
+        }
+        taskRepository.deleteByIdAndGroupId(taskId, groupId);
+    }
+
+    @Override
+    @Transactional
     public TaskVo updateTaskStatus(Integer groupId, Integer taskId) {
         Task task = taskRepository.findById(taskId).get();
 
