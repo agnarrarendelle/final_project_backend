@@ -10,6 +10,7 @@ import practice.entity.UserEntity;
 import practice.exception.GroupNameTakenException;
 import practice.repository.ChatRepository;
 import practice.repository.GroupRepository;
+import practice.repository.UserGroupRepository;
 import practice.repository.UserRepository;
 import practice.service.GroupService;
 import practice.vo.GroupVo;
@@ -28,6 +29,9 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     ChatRepository chatRepository;
+
+    @Autowired
+    UserGroupRepository userGroupRepository;
 
     @Override
     @Transactional
@@ -72,10 +76,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public boolean isUserInGroup(Integer userId, Integer groupId) {
-        UserEntity user = userRepository.findById(userId).get();
-        Set<UserEntity> groupUsers = groupRepository.findByIdWithUsers(groupId).get().getUsers();
-
-        return groupUsers.contains(user);
+        return userGroupRepository.findByUserIdAndGroupId(groupId, userId).isPresent();
     }
 
     @Override
