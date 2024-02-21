@@ -64,4 +64,10 @@ public class GlobalExceptionHandler {
     public Result<Void> exception(TaskNotExistException exception) {
         return Result.error(exception.getMessage());
     }
+
+    @ExceptionHandler(TaskStatusNotModifiableException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public Result<Void> exception(TaskStatusNotModifiableException exception) {
+        return Result.error(exception.getMessage());
+    }
 }

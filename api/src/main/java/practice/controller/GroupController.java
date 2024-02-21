@@ -81,6 +81,13 @@ public class GroupController {
         return Result.success(vo);
     }
 
+    @PutMapping("/{groupId}/task/{taskId}/status")
+    public Result<TaskVo> updateTaskStatus(@PathVariable("groupId") Integer groupId, @PathVariable("taskId") Integer taskId) {
+        TaskVo vo = taskService.updateTaskStatus(groupId, taskId);
+        return Result.success(vo);
+    }
+
+
     @GetMapping("/{groupId}/tasks")
     public Result<List<TaskVo>> getTasks(@PathVariable("groupId") Integer groupId, @AuthenticationPrincipal CustomUserDetails user) {
         List<TaskVo> vos = taskService.getTasks(user.getUserId(), groupId);

@@ -125,6 +125,39 @@ public class TaskServiceImpl implements TaskService {
                 .build();
     }
 
+    @Override
+    @Transactional
+    public TaskVo updateTaskStatus(Integer groupId, Integer taskId) {
+        Task task = taskRepository.findById(taskId).get();
+
+        if (task.isExpired()) {
+            throw new TaskStatusNotModifiableException(taskId);
+        }
+
+        if (task.getStatus() == Task.TaskStatus.Finished && task.isDue()) {
+            throw new TaskStatusNotModifiableException(taskId);
+        }
+
+        Task.TaskStatus flippedStatus =
+                task.getStatus() == Task.TaskStatus.InProgress ?
+                        Task.TaskStatus.Finished :
+                        Task.TaskStatus.InProgress;
+
+
+        task.setStatus(flippedStatus);
+
+        taskRepository.save(task);
+
+        return TaskVo
+                .builder()
+                .id(task.getId())
+                .name(task.getName())
+                .priorityLevel(task.getPriorityLevel().toString())
+                .status((task.getStatus().toString()))
+                .expiredAt(task.getExpiredAt())
+                .categoryName(task.getCategory().getName())
+                .build();
+    }
     private Task.TaskStatus toTaskStatus(String name) {
         try {
             return Task.TaskStatus.valueOf(name);
