@@ -17,4 +17,10 @@ public class ExpireOrderJob {
     public void expireOrder(){
         taskService.expireTasks();
     }
+
+    @Scheduled(cron = "0 0 12 ? * WED")
+    @Transactional
+    public void deleteExpiredTasks(){
+        taskService.deleteExpiredTasks();
+    }
 }

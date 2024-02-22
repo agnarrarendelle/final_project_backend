@@ -19,4 +19,6 @@ public interface TaskService {
     TaskVo updateTaskStatus(Integer groupId, Integer taskId);
 
     void expireTasks();
+
+    void deleteExpiredTasks();
 }

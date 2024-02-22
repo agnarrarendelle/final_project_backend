@@ -23,4 +23,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE task SET status = 'Expired' WHERE status = 'InProgress' AND expired_at < NOW();")
     void expireTasks();
+
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM task WHERE status = 'Expired'; ")
+    void deleteExpiredTasks();
 }

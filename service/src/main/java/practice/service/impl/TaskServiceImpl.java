@@ -171,6 +171,12 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.expireTasks();
     }
 
+    @Override
+    @Transactional
+    public void deleteExpiredTasks() {
+        taskRepository.deleteExpiredTasks();
+    }
+
     private Task.TaskStatus toTaskStatus(String name) {
         try {
             return Task.TaskStatus.valueOf(name);
