@@ -13,7 +13,7 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .addMapping("/**")
                 .allowedMethods(CorsConfiguration.ALL)
                 .allowedHeaders(CorsConfiguration.ALL)
-                .allowedOriginPatterns("http://localhost:5173")
+                .allowedOriginPatterns("http://localhost:5174")
                 .allowCredentials(true);
     }
 }
