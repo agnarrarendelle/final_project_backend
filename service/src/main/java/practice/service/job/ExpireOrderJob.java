@@ -14,7 +14,7 @@ public class ExpireOrderJob {
 
     @Scheduled(cron = "0/60 * * * * ?")
     @Transactional
-    public void expireOrder(){
+    public void expireTasks(){
         taskService.expireTasks();
     }
 
